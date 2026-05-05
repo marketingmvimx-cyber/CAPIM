@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Riesgos Empresariales · MVI Seguros</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2c5b;
+    --blue: #2563eb;
+    --light-blue: #3b82f6;
+    --orange: #f97316;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --teal: #0d9488;
+    --gray: #64748b;
+    --light: #f1f5f9;
+    --white: #ffffff;
+    --dark: #1e293b;
+    --card-radius: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f1f4a 0%, #1a2c5b 40%, #1e3a8a 100%);
+    min-height: 100vh;
+    color: var(--dark);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark {
+    width: 40px; height: 40px;
+    background: var(--blue);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; font-size: 14px; color: white;
+    letter-spacing: -1px;
+  }
+  .logo-text { color: white; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; }
+  .logo-sub { color: #93c5fd; font-size: 11px; font-weight: 400; }
+  .header-badge {
+    background: var(--orange);
+    color: white; font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* ── MAIN WRAPPER ── */
+  .wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 36px 24px 28px;
+    color: white;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(245,158,11,0.2);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px;
+    letter-spacing: 1.5px;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(24px, 6vw, 34px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    color: #bfdbfe;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto 20px;
+  }
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    height: 6px;
+    margin: 0 auto;
+    max-width: 380px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    background: linear-gradient(90deg, var(--blue), var(--gold));
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .progress-label {
+    color: #93c5fd;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: white;
+    border-radius: var(--card-radius);
+    padding: 28px 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    margin-bottom: 16px;
+    animation: slideUp 0.4s ease both;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── STEP INDICATOR ── */
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .step-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    flex-shrink: 0;
+  }
+  .step-dot.active { background: var(--blue); color: white; }
+  .step-dot.done { background: var(--green); color: white; }
+  .step-dot.pending { background: #e2e8f0; color: #94a3b8; }
+  .step-line { flex: 1; height: 2px; background: #e2e8f0; }
+  .step-line.done { background: var(--green); }
+
+  /* ── QUESTION ── */
+  .question-pilar {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 6px;
+  }
+  .question-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.35;
+    margin-bottom: 20px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .option-btn:hover { border-color: var(--blue); background: #f0f7ff; }
+  .option-btn.selected { border-color: var(--blue); background: #eff6ff; }
+  .option-btn.selected .opt-circle { background: var(--blue); border-color: var(--blue); }
+  .option-btn.selected .opt-circle::after { display: block; }
+  .opt-circle {
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .opt-circle::after {
+    content: '';
+    display: none;
+    width: 8px; height: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+  .opt-text { font-size: 14px; color: var(--dark); line-height: 1.4; }
+  .opt-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: block; width: 100%;
+    padding: 16px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 20px;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,0.4); }
+  .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-secondary {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    color: var(--gray);
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── FORM FIELDS ── */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 13px; font-weight: 600; color: var(--dark);
+    margin-bottom: 6px;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .form-label span { color: #ef4444; }
+  .form-input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px; color: var(--dark);
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .form-input.error { border-color: #ef4444; }
+  .form-select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px; color: var(--dark);
+    font-family: 'Inter', sans-serif;
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+  .form-select:focus { border-color: var(--blue); }
+
+  /* ── RESULTS ── */
+  .result-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 20px;
+  }
+  .score-ring {
+    width: 100px; height: 100px;
+    margin: 0 auto 12px;
+    position: relative;
+  }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+  .score-ring .bg { stroke: #e2e8f0; }
+  .score-ring .fg { stroke: var(--orange); stroke-dasharray: 251; stroke-dashoffset: 251; transition: stroke-dashoffset 1.2s ease; }
+  .score-ring .score-num {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--dark);
+  }
+  .result-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+  .result-subtitle { color: var(--gray); font-size: 14px; line-height: 1.5; }
+  .pilar-results { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .pilar-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f8fafc;
+  }
+  .pilar-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .pilar-name { font-size: 13px; font-weight: 600; flex: 1; }
+  .pilar-bar-wrap { flex: 2; height: 6px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+  .pilar-bar { height: 100%; border-radius: 4px; transition: width 1s ease; width: 0%; }
+  .pilar-status { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+  .status-ok { background: #dcfce7; color: #166534; }
+  .status-warning { background: #fef3c7; color: #92400e; }
+  .status-danger { background: #fee2e2; color: #991b1b; }
+
+  /* ── DOWNLOAD SECTION ── */
+  .download-box {
+    background: linear-gradient(135deg, #1a2c5b, #1e3a8a);
+    border-radius: 14px;
+    padding: 24px;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .download-icon { font-size: 36px; margin-bottom: 10px; }
+  .download-box h3 { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  .download-box p { color: #bfdbfe; font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px;
+    background: var(--gold);
+    color: var(--dark);
+    border: none; border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-download:hover { background: #d97706; transform: translateY(-1px); }
+
+  /* ── WHATSAPP CTA ── */
+  .wa-box {
+    background: #f0fdf4;
+    border: 2px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none;
+    margin-top: 12px;
+    transition: all 0.2s;
+  }
+  .wa-box:hover { background: #dcfce7; border-color: #86efac; }
+  .wa-icon { font-size: 32px; flex-shrink: 0; }
+  .wa-text h4 { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 2px; }
+  .wa-text p { font-size: 12px; color: #15803d; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--dark); color: white;
+    padding: 12px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; text-align: center;
+  }
+  #toast.show { opacity: 1; }
+
+  /* ── LOADING OVERLAY ── */
+  #loading-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(15,31,74,0.85);
+    z-index: 9998;
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px; color: white;
+  }
+  #loading-overlay.show { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 400px) {
+    .wrapper { padding: 16px 12px 50px; }
+    .card { padding: 22px 18px; }
+    .question-text { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p style="font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;">Enviando tu diagnóstico…</p>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <img src="data:image/png;base64,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" alt="MVI Seguros Fianzas" style="height:90px;width:auto;display:block;">
+  </div>
+  <div class="header-badge">EXPO CAPIM 2026</div>
+</header>
+
+<!-- MAIN -->
+<main class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero" id="hero-section">
+    <div class="hero-tag">DIAGNÓSTICO GRATUITO</div>
+    <h1>¿Qué tan protegida está<br><span>tu empresa?</span></h1>
+    <p>Responde 8 preguntas rápidas y recibe tu análisis de riesgos personalizado + la guía completa de MVI.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <p class="progress-label" id="progress-label">Pregunta <span id="q-current">0</span> de 8</p>
+  </div>
+
+  <!-- QUIZ CONTAINER -->
+  <div id="quiz-container"></div>
+
+  <!-- FORM CONTAINER -->
+  <div id="form-container" style="display:none;"></div>
+
+  <!-- RESULTS CONTAINER -->
+  <div id="results-container" style="display:none;"></div>
+
+</main>
+
+<script>
+// ──────────────────────────────────────
+// CONFIGURATION
+// ──────────────────────────────────────
+
+// 🔧 REEMPLAZA ESTA URL con la de tu Google Apps Script
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMXz8IjHr0sjL2hC2cc2ZRu_Rl37lkRBhCN8L1zTGwbNEd_9lqApITiExj-nrzEGoH5w/exec';
+
+const PDF_B64 = 'JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIgL0Y0IDcgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjIgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago0IDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLU9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YzIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNSAwIG9iago8PAovQ29udGVudHMgMTIgMCBSIC9NZWRpYUJveCBbIDAgMCA2MTIgNzkyIF0gL1BhcmVudCAxMSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovQ29udGVudHMgMTMgMCBSIC9NZWRpYUJveCBbIDAgMCA2MTIgNzkyIF0gL1BhcmVudCAxMSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNyAwIG9iago8PAovQmFzZUZvbnQgL1phcGZEaW5nYmF0cyAvTmFtZSAvRjQgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db250ZW50cyAxNCAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDExIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgMTEgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagoxMCAwIG9iago8PAovQXV0aG9yIChhbm9ueW1vdXMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA1MDUyMDE3MTcrMDAnMDAnKSAvQ3JlYXRvciAoYW5vbnltb3VzKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA1MDUyMDE3MTcrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAodW5zcGVjaWZpZWQpIC9UaXRsZSAodW50aXRsZWQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKMTEgMCBvYmoKPDwKL0NvdW50IDMgL0tpZHMgWyA1IDAgUiA2IDAgUiA4IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMTIgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMTgwNAo+PgpzdHJlYW0KR2F0PWs5NWlURCZCRjg5J1FcKUNKLl5cZVdTImUqP20mJDxIZGI/ZShLRHVoPENraSdVZVQ8Y3FAOS5XWHJoZVcrSEQ1PHMzMUMjVWR0aFFyaF09JGgjbVNmTDNIXTUuImgxNTpkRzVjNUpaQUEsPzJhcy86XlBDRktVLjVhXCJqLWdndSwvWERqJUwpMm8kW111Xk8xTWskLCFVbkNdSUUqV2BFS2M7KGZwQF5FYjVSSU4zNzdCZD4vcUJwYVllZ21MaUJGU2c5RkZGQyNqVzdeRXFZb2tqOTpZUVVzOTk2NzRDZCxZWmhkIkpGZjplUV0lO3NIOipFOVUpRXNOJjROOSFxUCcsbD1DL3FBLVQjbCZqcHRrWE44am1rVTRtUFgoKjNtWSJtYSRXN1BTWERGMkMlUUNvO19WR1kmVF9LZnFUc25GPzZnXEBtOmlxPCQ6NWZNSl4vbD9gLWZPNEVXWVlsNSRdRHU8U0BHKGlkTTt1T2lSMkQ2MSFYcmwoXC05ODVgTyE0OTJQVF9ANktFJG5CaGk+c2tpS0RMOlw6NGwuYyotJFlINFI1ZzhjcGkhQztVZUI6VSJdL3EwJEdrW01lQT0zWG1JOmtGKVpEP1Y3QUozPzkiWGdwUFU5OiFhOyYyN3FuKUBmTzVMPjdLSnBZb1U5bkJjXzdqMUY4ZEEnTlFYPGdfLCRnLV4sazgka3QlLEpwQDxAX2w2bldqbUQwLU1zSm11cHVPOE5GTTpTZ0BbL3VwOW5Yc25LSGpbPlNhcE9NW2ZiYk48Y3M9YnEhXjZYPlhfU2FaPl89UStFLHRHZz9rZGNMJ3BVR2JZLk5eNjBvK2wxSz8odEZScVwrbjJIWFpVWmFOZlllR0RJSWQ+cWM1Ty49Yyd1ci1fPW5zSEliVSRvNDZyKGxvLWZORXEnYT1yIUM5Nj5JbWNTMzZONnB0TmJIWlZGPmlMJm8rSldHWWg0R0s8IjVMdUs9V1ROQUYlOGhsVic4VFJGSDdbQ044ZFVPOjFuX2YvSyQhS2t0Rzk4NS9FKDBIW0JIVFUhP0VXL2h1bFVPYSZFL0BNNllTLEFIPlwwVms2aUYkKVJcKyJDYGwoUSZbSURlYUhwbCwvSGgtQWFTOjNqVj8oSCxWczhSJydMKSY4ay1JXFVBWyI3byxiPCk4ZTRjS19wXjpbITJXVmkoUiVDUGpgMD1vX0QxRCJyJG9rZmQzTllbIm9tRWBLOj48S09LRzxdWXNDNl1pXjhsLyU3PnBeVCNuX1ZAUEo/UjNeNC4/TllaZm5BJix1Z2pWRT5sZiI9KidcNTlTNVJMYUJnZUo/aCgoOShiaic3Y0xeTGBFYTJeKDg4JGZCcEw9RFNYcEMzPkhyITxqP28oXEpnMmtoS1RJImlmY2xST042Yj9FcT1UOjxiQ0s0bSIvKTBXLydmJD9IcE5RblBJLDQnKkhYKzhdZUQmIjwqWjlLNiopRDZARWZNbS4+VFVLKWhNRTIlOzk9UEFKdCQrLUlFQmRacmo9RmtZQjB0O2lATWBaNm9bKDQ8Yz0rNlsoVl5pTyFrOmEqT2A6Qy86Kj48WFtoZU9wZHE0QDAlYFFRIUM2UkhnZz1uXDkhKHEhMyFnXm8+VXFba1MxMlojXDE1Z2omNzR1J1tmb1A+OXQiTGdAcktPWV5eWWZMbVtHaThwcGw/JjtDbTBHKD9RV1FHZVRPWF1sbnBDbyozJ1lwX0lbSmpqNUYwam5Va2tZV0lWLUglPGVNVSprJ1xTQVxdZC45NmBWPTVBImMyJ0YxaTpsQDptM0MtKDQiczFNOVMtcihNJWdrP2QtRi1xJTNVUSlrcENlMUxsQitfT1I+U2Upay1yQUgtTmJCcFhfb0tLQWhVJ2kudG5nJF8kcT4nO2MjbmptSFdDUi8nUjRKQ05vK09jSVBRYihEY29yXTVLNkZTazw+cWNJQi9wRW5UQEk6RllTLl4yXypkQipMIkQvaCgpMCo1LXBoPEpgNWcqSTsqOSk+NEYmZm1wS0YkPz1BNiw+Uis8KTlsSXReY0xqKU8rbj42XS0sSkY3anAhXmY7OCpMRGxwZzknbGxhO2hqbDFNTCQpU14oUmF1ZyFFKGhYT0A+Z1RhbGdaIVU2YG5ibEpgalxEPkl1WzY/WSohc0lbXlhINj9hZSk6ZjRYRENlKTUmbWlEWDclLWNnTHE+bUssbWcncVpuMW4vXjdbYltAdGBga0Q0Ui8/R1ghVjZkP1MkK0QxMHFnYmo5QnRHTjUjKyhNM2QsU1BbPyRqMkw0JVZhPjpYMFEqNGZtOCRHJFRAQXJGOEBWS1Rgb25oZmdhSS4zTFhlU0wsdDRpYG1OZyNLOU5vWllUQDBjTD9KTmsuO3UpRWhYMiFYTzooN0t+PmVuZHN0cmVhbQplbmRvYmoKMTMgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggNDYyOQo+PgpzdHJlYW0KR2F0bik5OVwqZyZxS0hCLnJhMUFoOiosVDpIaWYmWTxERWViMjBXalBGUiQ6Om1gdDknV0ZwV3EhbVtaKnJsSSFNLSR1XztgK1wsVFtBYCdcaiQ2cTZHZkBoczZYIUdKKT8qNHJoUDRxaXBLKVw+P0duPj4yN249XydBYEUqajVkSj4hZHFDZDoqSUJpSjRJIz1YVFxCJ1dTTyovNEYhO0RYOldBRWdkbkspPSxWY1cmSDttVXUkNFskX0ZBc1E+KTRTPCtSQkRmJkgtT0lzR3NzSFI8KFNMai0lP0RJPEJqLnJPNFZJPFRjMG0rbl5UWUFcPVkrbXNkbUc8XEotQkxbdSU7JDc3Wmw7Q143TTR0I2ZWMWlcNlg0ZyQ7O1AxQnBLcnNORWh1Kj1DZ2tObEoxaUM5WiUxZHNScjolW0RaZWlFKkokUTooJF8tLS9EOkJtKXApODZzaWJkPEUuO1pzUUxwdGpDJFo0WTMybC5DWCgpa1NePlpvUnU2amoyOixta0dnLCliIWc3LihabVNAVEVMbXQ5OFAua2ViYyI5IVBuJUJLR04yZyloPipVX24sMFNFJFFxcWpsak5sLGBRcXFRU2Emcipec2xXalYxV1tcaGtuYTddXlxHLT5OSkdZTypYRypdMzlJX1VmaXFCQyZAPWxZS2AwR0laaS8wKzNrJDIlQD5aNk9RUSljMHFINzUydVczVzopIzdYczsoTS5HP2gzOmZxcDUySiVVPXJfVFlzaUQyMk8tT2FHXHNdIS9HKiFqJEdubGdbNTBBOV1lXEEvTytrLiFlLWJsKnFSMEhJWSZJNk9RdCohWjpVI1txUGZQXCtjREkhaj4pI0UqP25SVGIiZGM1QzxsSyozTUNSKl5DL1ZsZm1GNyNYWStuUTI0SVFzcWJVMC9lQTAuNG5fUDldLUcldWAiNnA0PSNhVmRzbSZEKDtoUSY+Tj9qVTFLal1XRkg6V1tvRmY3YD86O1s5JElILGhMJjEuMyxdYyU3K1c/Qk9bWzNEUSFqL1ElYjYxZVxXQXJnKkA0Ni9Ub05gT1pRPko4Wj5rXUJdTDdlUEcnO2Jqc1pDcCw2cGhBMFAuNmcoRWZlKldRa2taYjpvRi03XihDU2kzM2MmTnFiL3NqNztmUm5MNEQ3WzltQzE9OVFLMDJfX25zYW4sSVdkcygrMSUoZkMvaT1RaGkiaF9DaC8xY0pBTSNrQ2ghM2pnQ1dHcVtuIWVfMTxyaV0nRUJFPEJnYmxxI29CdStlMkZWUiNpUShtTmtpXU8uWUIrNyhqPWBtOmtZUWJmT1FIM2Y2UTZCc0djJyUlYmMpVE1IS0NXOGhBQGglZ1xHZig6YWk6azpda0VyKWBgM0dCMFc4KGI1TXMsYSgzXmRQPT0kSCwzOFIjQihlKzVMNFtSI0VeNSQ3R0FmZU4hSWI4ZFtbaSZVVDRAJyNHMVVkMCVyKUFLRTJkdThVJiErMFQrQD1zUXFeR29oTFNrJmFOZGRUbDxlNiVSVyxCXEFNcnFGWl4kZ20uQWgoRHRRZE9wKz4uUnRqaj1YXltcSyU2YVhMXVlwbHVIczAwJVc0Jlpvckg/QWlKJmREM1QjQFFZVj4zQi9DN1coR0J0L21IZFxsSUhyJ0RjQkRcaExTc1o0Slc8c1BaWjE+T15UR2twNmVJUXMrMmNIS2ZcIUNyNiZsNEpgWGoxXXBgWWc7PWJFbShNKjEsMywwb19fLmdXLjNCTjMnLlNwdWwqLDhrKF9uLG51RGo1SD4hUFhVO10ib087JylWSjlFImwnKHJuaGc7ViY7dXM2JE8jJiJgcVFcZTJ1PFR1bGsqc1A6VSZqMElUWEVnLDlMZHNZYmhJUy1McDBvJlYnMFlOcihDKjZZTFxqQlhjJElbYnElXy1pT1lFZkxBP2NfLD8iTEdgK0NnKWgjTEI5OjsxclctL2JzPls5IiVgcldoLDVValxuN3IzOEkoUE90KltrZlJwZllCODFBRE8rYFcpKHE7NywyNSI5SD5dWGknTiRfXEorRGBgXD9oMjo1aDk7RE44XmxQY2djUWAkZCtRU185Zk5gWjVhLjllc2c5RmM4RFw4XyE/ImdpNm5qRS8wPy1tZFAoST9CPko7Jjo+X2pKNVFcdD5bP0kkSy9zXDZFLk10YE1famVqWFpcTUs4S2N0JUdMTFYxay4mPCRjJEZrJG1QcicwX0IiJXJnayM4P0U8aj9scEIzNT9WdFwzQUQ6YCpXRyRLP3NvPXNiK18jcW44amtSWCdqQUxIR2xjMzk5OFgmVUwlR1JIQjRpY0slWixcakBZbTNxIkAjcVdLIzxLS0BKXi4uJ2AoTGwlbClEbiw5OU1TLGZcJ2dHRk9tYVZVRHVnI0QtI0leKTtjTmA1cWEvRz9bX3QyPDgoaWA0QShBbUhDTj9NTFMxV2Q2RzE9KWQiYWVSOy5wKmtHKSUsKiVgNyErSGomcCFpIlNfNjRtKCxnMF5cUnRMW2FYLCsjKzgvJWtkIlslWTVROWJJRzxEb205ZzUnXEcmRDZkRTMvQU5vbEkjU1YoLlNzLCknUUk1TTMvWTAoJjNEU2xia01vTC88TDR0YFNaaD1UbytiJUQ8P0Y0Q1RBJEJYTkE8LUVJJyVXXkRmSC1nZ2NIbFpiYF5udWtoZy5WXVVPQScvREdDQyc3cWMvSzJxWXJNNzklaFwtM3QrQSZDSU4pYVIvVVI8YkFQXStHZ1pKPzZCdXFaNCRNKFo6UWk0TmUmWixwNzY2PlFCbk0nZ2lCR0VgX2BgMTJBLzEvOVpmVSRRc0s8LFsnN0hMdUwnR0NMaCdcKE45YXFhQV9jXmQuW0BfNW0uW0lUYS1JQ0JJImJmP0FmPiZSUVFecShCQCMtXVJdPGtqZlxcXXFjKlZdS3UmSVNlLlxFO1VxbGQ/NSc2OUxpbFJVbSdZRTwxQVBCPUM0XHBkXkdSYlQvTHRrWm49TlxfK0U4bENgR3AiPiE4WHBXc0MqRk51R2FVYEIsN0MjL1hAOWRTMygiTj8xQ2kzLlhJV2Q2S0ZycV4tTDk3LClhW1JuSTg7KzUyVTBiIVpHXF5KI1ZqQkVBN1h0X2FUdXV0MToiO0otNmxGIk5bPnBwWVhzW2tQIkI3NCw4QSpEZVEiQkgqS3VVL3EnVlg3S09JTj1hRz5hMSk9XTsvTyJHMm0sP3BJak4sNzpOXy4nTmUxLiVPZ040OyxgYDVTLidwc3BMVGcqRGQkTHFEb15CUUdxPFYuUkVVU1cjK14ncDRXaCxUL25LODRMcihWU2kzJlQwOWlVTjBnOmBZYWtJP2huMFFJN2dvSFxPcjhhdW0zIiEhOChxQDxwT2clYyYhJ2QnUzB0PyZjZkg/ZFMmZSQjM2VgS25OTig9WkFTU1Q8O0JvTVJHWUNuRTxhQ2pzTVQrLXQ7a2w0NylZJyEwQDx1W3BsOEhmW3JZUSZpZD8qOFhuVSpYXGk0Jj05NlUxaDlcVkdDViNDUVBJYT9oPGdVKmcuR1FpbTNqS1czJzBpb1xdQiUnKSlUUXEyR10kSl5ANCNYZT5TXzc8Y2dUVmRia280bldQIUcrcjVMV1BnRmtOW1hZQTlBUSwkcXNjTmVOUD5hPkBqUzlARE9PY05OW1NxMCJKOyc0KltuXDhIcTZxP04xaGU8XWpmVDUmclBGWzk3VmtBUiolKGFzQ1w9ZyJEMVZcP1wjQVJbO1hoR3MqO1xwXGxVdCVBKlNeIyZuOiszMWZbKF02PEpKKkdsMlgqT3NwVEdvUWo/TDx0WiwwMjs/RlpNSCV1Ni5RQ1FCYDBxVDBNUmBiYUBhIlkrPWUyJSRRIWhabjFRUDQsYmxwXUwyI29WIys2ZV4nYy9XZGAqWz8zYU5oKERpImFWI3JHcFglNE9pVm9OVnJvZFxWMWlZa19zPExKX3RBYDdRWV8zO24nXycnbzRgcE0zMVk6SldKI0U3YW5rb1FoSDZoR3Q0RyFvNitQaCVMX08kTlwjaltOLmoqKjFSKDVYbyJbU1xkUGFzIkFLaEwiR2dlaWcrVGw3QkZAQ2s4ISg1WyQ7W3FOTVhJV2Q2IjpnbSotMG1JczZAR1RCLWFGO1FCJ08mNFUpRlo/aTZvaCNVaGRxIyI/SjdGUkFyO1srXT5uMy02XjEvOGI0Wjwxb1pwSCNYcTFHPCY/JnNRcy0xMTs5b25ZYT5mTWdMbDQlc25MWSlpRl5jTG1iLz9Vbm1jNzNsalhjJ0cnKzhmMj1HVmtrJGg6Pl4xcG9tdFluMitILzxpMWslOCFPJW1yKWheNlMoWVdBMXUlayMyIm88a1QuPHRONU82KEc8SCxCa005KGc/T2hwIyE0XE5daVsmRklhNVxrYGhuVm5NZ00ncFtnS2ZFKmY9NGhnbVUuTCxCLTY9KihFJiRhYlhHVnBLbzpuSFdSQC9GV1xmSC4tIW1rVzlpIz4kPyc1VStjPVdJb05SOTw7LXJuXG9Sb1FwcGBxS15MY3RiWjBtSl9RZFFsPl10cGx1SWYsSTtlWTg6PCMoK0coTlVZbkouNyduPmlrYk5lbnVMQmk7bkZmaV44JjtJK1BrXStvTEMtYUlzJD1QZWVgdWIuUmJJIVs1Yjc0Y1Ywa0toTytUMiltVD0lczhBMCQoT1MjLFFnKkgwcGBwSDpeKj1gbTprZl87W1ZxSGlhak9sX19vbllzZDVnRjIoYF42XTt0J28mW2lsTGRRTHJGJ0VCWXJIamtPakBTNUo8WixBcU1wQElCKWs2RjZUOy5HPC89b0ZHVnVBWy42dDU9UyRMajpHbCM2ZCZwTj9bTVxlM1FfVUgnKldxIk8/cCZtZGkiWS9jVjEjP2ptbzEmWEhBclU+YzczOWo5P0QqSSE8MEYpPDsoO0tSWlVULChwJjFJSiVGWW9YOkZCWDNHZCwhUSNqaj09Z0hFOVNPPkBDREZnKjI3VEdISnReImo1VCpKZWtaPGg3OVghM2BaSGozT3FtTyw/bzUsOEZXOVVFV1xtI2NZcmZXKDliZS1VJyNcODQ9SFJaQih0VWolMFohUT0yOGtLTVZvZjB1QEpnJHFoZ3U6XmYkXFwjQywtJ0Q0TU5NVidhYTgnO1AmTzxEV2ZXLDg9UzxCNnAjZCMiX209NmMwMThFaTEoNm11UCMuW2ooMDFEUVVeQlRjIjhSOkBeNTlxbjQsO05cQ15VKjs1ODw1YzciSEo3VU83Rz9FXzc2OWtyOnBKLUEjXiVJRGlXO3NoKE0+NVc+QzEkdVA8YmlkbVxdMEFjRGNWYlJlP1onLmFnXmI2cS1PLDwyPiopaVhTaSIzczNbb15bdGdJImgwQHMjaWEvIi9ramBDUD9zVV5LQUpxRjxuIikvZldhNmZSWTsjPTVccUlcQm0+JWVRXSY1TStyPVxQJ0pAZnBrIWxKPlxQWDxnTkhpUj9aKF1ydFclTFhHN3EwMFVOVVZVM2tiSHAoOk1qLmc3TiEidV5tYD1CNz1bcGRoWkRiYyY6UGlKPGdYVSZAUTwuQE4yPnRTO0swVk1dWmdyPzJIJ2k1Zkg+UFVpYXMuSkotVS9dMFtaYTIyWi9kW2MxJmElVmYhT0wqTUA2ZDxvJiFQVlhZXzoqOUsmQ2JFN3JnPFFtQDpzKjotWzkjV1E3MjVdTCtYImMzamtTI1ZbZ0VoOCpHLFIjYiMubi5uXkRfX1AvRT5ycDBtW1RAbDhIZXBKRDZwcmozQ04yPUYxV3BeIkU4NXFGYmVfcXJOWVAqUEg9MSpZM2A1QHVIK2FuckRRSXE8U2luJzdWWEArZGhdQ0VmN2Y8KCJiN0BYcXViZWxNK2QhKEdiMGw/WSVfWTdUbmRwPEw0KFs7UkswJ2diQnRrP1luPDdjRWIxQTs1aUlPT2pVJyMiLmBFU2Q8S0wlXEYjMENbbzdlaGA4KlJZPGsnci0rSmptbXBiPERTQlovVkFxRHRpJGYtPTtbaS9OO2JfWWc5L1M8Y3FcKzdNWHJxUW9ZXFEoWVBaSkRaWUdidT5HR1Y6VXVHXkE7XVppJmEnOysiJjJBSiQjP1NAZjdgPXJxUSJuRVcibE1vRUZYNi5zUW9QUSojKzNeQTpGdWZBMG5EOy0xOWQsdFsibEV0cl1mNTxaOFFOcn4+ZW5kc3RyZWFtCmVuZG9iagoxNCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyNjcxCj4+CnN0cmVhbQpHYXRtPT1gPChiJnE2SFs7MzBSQWQ6JEJtRidmUiFPTShaUSQuZE5PXmQ5XCslUDpKQjZPbFlJKlRibWs8VjhYTWVmRUdKVmVYO1VZM1ctZ21aQz8oP2NpPSxIW20zYGlTL1BoVWs4MyErSDgnb3JcJDVvaFshcTQ7Kiw+cDFmW0QpY3JTW2RfS2BLUUgjXFs2V2BtNmtfVC1SUTZJaTZjMiRkdW5YUlBvKikoaiwocUIjWWMsbT9KclsyJSFGQWtMXGdQaWBNKyMhUW0rUCxhSisrOlJdRVUoJHIvOFEkPkAzTitIWilIOVRfTEREOjtJTSJxXlFqV048b0VYayNWNig1OlA0IVtvOG0uOVs3UUQvWlFCbj1cJ15iW2RWb1VCXTE1OT9YUVE1IWVEXCtkUFlzOiwxWjlZJi9xcEZNIz1TQCJgPDppMTdPPi9rcC4jImUxImwnZztwW0k+QyNhYVMqMChvN3UmW2o4SnJqJENwZDZsWytlNlgwOUA9aTppXEZdWmtJZWsiUnJzbjVMT0EkJzdhTG5RP2NnZG4vWSJhJGo5Jio4NUwtUFk1LEZrPT1zM0hJLWNKViNpJ3RqRzZqUUhRN1MzN3U2ckolVmM3T19dZFtTZzYiQXIwQTBrbmdBIjpBXFlla0whKEhNbWclPC1VM19ObytCXlRAO0k9a2guai1YVm1rMytmWyI4VU00KEpnQDU1RSdzLjlPMFZ0aVh1M1BkT29LN01EbGFRMEw+NVBtVCk7ZC9cU0RpKDopNSZQZWAqUF9jZ0kuVW9MKEJaRFtnP0U+YC5vZFpgUSZWY2k0NF1ZI2hsKS5OK00nb1leSzhRM1gvK2VdMjVXWCg9X2pcYCJNLUZJZWpSKGBML3FtdVYrJT5mQ25kQiYtJ0AkJ0JIXXFtRT8rQVkzY15WVileXToyL3M4ZWdbJGwqXEZ1NVpvZ1xWQW8jKkRadC9LPShaQyEvdXRfSEA5X1omOklWUFZUUl9BW0dZWk5KYy0rNzBKcDQtbF0tNERNXVZXPyY0cTsmZjhmT1ghP2VqZDoldCIoZmhvYzdOSmZVTnVPWUooLDUwaiJwP09pPUJBLXFFXkNRNCFGWEhfOnUhNGtZKGEjb1g/P2BGR3J0QCc+cyFDJGQ3cyxrRDJTSGc0LDBvQEdlblJkWUJtMyFlJUJJTkZWWzJKXmR0TyYwIUlEaCorbDhbUS9rOm8qSlBXL2lXKkQ4Rm1OYSpNN14wcidmbToiOl4oWGtPKyxxW0UxdERdMiFmR2JFPzp1KTZWVCFHbls3N2Y7Q1EnTDQ4XzlOOiJQT01gIlw3YEBrSCUuQ1BiZiI4S28hQi8zQDVrbGwhVTlQU1I3Y1JvNzM3WVhWW2BSTmdiJzk2Pm87JyNBLSZnW2MtJ2Q4Q11GOCpbWWszYUVRPSxnXCxURU5VXD9YZlFec2xTRUA/I1hWTFBjKEt1QTE/dGdrZ0I+LSFERi8yTj8rKXFLNCQrbkBKMVE8OzZhbC5tXm8rRU1RUmhSKVFbb1s6UiklIWMxXTc3OjAwPHRfNlAlNjptTDMvLElIUEZkKyhEIV5HLnVeKlpbWDpuT11GP1JTKyhXQmViMzJYXGZfLjMiJEMtRDBqUjkqZnJkaCRWS2lJKiRTNkpfQERBOydkSGgyVjs3R0g4UChxLzE1WzM3QiQlXU5fciNoa2FBL1RyTCVMPmFNIkFmayJpIVFjIltqdF1PLD85Mi9xWyVoTi4rU3IpWFB1Kis3IihFY2giLVs3REwxIS0tWyEqaDgoPFtvWzRpMkQoJ2lENytgSy9vO2EuSShBXEQ7TipzJmEpNV1CMEZVJFtPc0EpQzNlbDY/QG9cUFlWJD8rKXJgWlQnQmxeRWVFQj9hZiw0JjgzT0VBaCsjTFFRYWAuJEtvUUg2L1hEXzM3VjBSQSlzP1RwUm9sdDhlYy5INlAjIi1JQ248UD9PTVMtaTFQWmM5ZGtCTj5kaVs/YCxRUydJXFsxLUYqZlxSaiNuO2lVaFdZXEArUjhoQDxuX3FbJGN1aENTMEdpLkkpI05pJ2FBLywrO24xazluO1Q4MixbJjJPMkVpUkZCTyoxOGdoQlxrTCdlWS4jN2QrSUIjUkNlI2M1UDdbdT87ZTZmU2RhR3E4SG1UO1xPKD9UXC9nXVZiclw8cWBLKExuSVo7YGEsIm0mazY2QmtAdEFzOmRRJ0BhUzpnO1EkXzxsVUNrbl1GOlJLLVpyViciMj5cOD4wMHMyQ1liZ1NCOkIwWj9gJDpNQ2JlU0EzNFt1cGluR0IkWGxuJ09YQGw4Y1NgdTZxci1rKWkucSVHTXVcN0E7ZW9XT0M8UiZOYls9XmVWTHUzJjVlRSZzPS4tNiNldShZQD07P2shXk8+XEVGRTBBPWonSVBiTFNbUlY3QVxCNjhZU0xGVilJOC1FR0ghXDI1UEgja145dTldQypXRkNIT0grVTBcUGpvY0pzL2hiTih0NU9aUGlPNFZpQDM4MCw2czQxTWo9Q21yXDBZPExIMDQyR0xmQEg1YylzKl1IJ0U2MDxDYjlCaC4xbGFTRltgcUppSzw2WD0nJE9VUVVudWNHJ2xdWyIsNj5bbTM4IV1lSExzL0FVblorQy1qalZHUVIydTE1LSxlbmwiaEM1U0U8O2VkYG1qZy1Kc2xIdGIwUixXIiFdZzhJWVRIKl9bVUFtK2xYUWlCXDQkQEIqWF5POWE0XV9ObTJsLlo5cl8idD4+Y1sibiJMTl9JXDRqTEhyPnUqVSMnLm0tUjZNVidWYWBYJCg6cFtLMCZtT1BJKl5VUDs9YFNIczYsIWw4Nls1dDNkRXRpXjdvT1stZUonJGEmLW11VWk3S2BLRVsqMHRYSEJcJSlRaE5cLFArakRqMi5ga0s4Oj1aSSpeQz1FTWErM1MwaUVPclVYdTtsXCNwVWhuVFEoJGpeWiQkVmo8YkUpUHFWJzQnOXEzNUhjLUVDLTkwLVVdUkgrWUkuRlhjOGpyMyU5IWk4USRcNzdhODcsWUQvNlszVyZHXlM/PlY2Ki8mZWBnUUNYS2ZvUFslamgmUCw5YWVYUUcha2AxQjdZY3MnI0EmQylka3JpK3NPUUVaJEhFWWEhXTouKDBEc2I7KVpJTkdOOTtlKSxFIUg9NyQ+RytbU1NOISY3TC8icS44ZkkncmAnPUlwSidQR1clQV0mckJuOGZyN1pfJSY7OEtCRjA4XCY2OlJeKWA3JyhjP1llXVldNDc6TSZ0Vk8hSF1fYDFJL0BwSWY3bmlNVnQmUV01WlIpLVU/aGYxPzNXL2tjYD5pSD5IV19hS3R1ZkZIL0dodEQ7TlQ8VDxgRFsnXj0lLDJCMjcsZWdUIXVDJEpUXT0hSm4paVlRJGNoLCFvdSNiQEBbW0E1ZkM8YmhrbTJAVixtJVsrQUk/QU5mUy88SD1XRGZcPklvTTJTX0MxPjIpLnRzXlZlXzJaIz4rLEUnQSsuQnVkbz9tYipgPFU9RzlyZEpsL080SERQcUpjJHFbQXJVT11sYWY5L19XTGxpaCFiK34+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMjIgMDAwMDAgbiAKMDAwMDAwMDIyOSAwMDAwMCBuIAowMDAwMDAwMzQxIDAwMDAwIG4gCjAwMDAwMDA0NTYgMDAwMDAgbiAKMDAwMDAwMDY1MSAwMDAwMCBuIAowMDAwMDAwODQ2IDAwMDAwIG4gCjAwMDAwMDA5MjkgMDAwMDAgbiAKMDAwMDAwMTEyNCAwMDAwMCBuIAowMDAwMDAxMTkzIDAwMDAwIG4gCjAwMDAwMDE0NTUgMDAwMDAgbiAKMDAwMDAwMTUyNyAwMDAwMCBuIAowMDAwMDAzNDIzIDAwMDAwIG4gCjAwMDAwMDgxNDQgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8ZDE5YTFjZjJkYjY0NWQ1NzNkNGYzOTkzYjViNGY4ZTI+PGQxOWExY2YyZGI2NDVkNTczZDRmMzk5M2I1YjRmOGUyPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyAxMCAwIFIKL1Jvb3QgOSAwIFIKL1NpemUgMTUKPj4Kc3RhcnR4cmVmCjEwOTA3CiUlRU9GCg==';
+
+// ──────────────────────────────────────
+// QUIZ DATA — 8 questions, 5 pillars
+// ──────────────────────────────────────
+const questions = [
+  {
+    id: 'q1',
+    pilar: 'Fianzas y Contratos',
+    pilarColor: '#f97316',
+    pilarKey: 'fianzas',
+    text: '¿Tu empresa tiene contratos vigentes con clientes que exigen fianza de cumplimiento o anticipo?',
+    options: [
+      { value: 3, label: 'Sí, y las fianzas están actualizadas con cada contrato', sub: 'Operación correcta' },
+      { value: 1, label: 'Tenemos contratos pero las fianzas no siempre se actualizan', sub: 'Riesgo moderado' },
+      { value: 0, label: 'Operamos sin fianzas aunque los contratos las piden', sub: 'Riesgo alto de incumplimiento' },
+      { value: 2, label: 'No aplica — no tenemos contratos que lo requieran', sub: '' },
+    ]
+  },
+  {
+    id: 'q2',
+    pilar: 'Activos Físicos',
+    pilarColor: '#2563eb',
+    pilarKey: 'activos',
+    text: '¿Cuándo fue la última vez que valuaste y actualizaste el seguro de tu maquinaria, equipo e instalaciones?',
+    options: [
+      { value: 3, label: 'En el último año — valores actualizados', sub: 'Excelente' },
+      { value: 1, label: 'Hace 2–3 años', sub: 'Posible brecha del 20–35% por inflación' },
+      { value: 0, label: 'Más de 3 años o nunca se ha actualizado', sub: 'Alta exposición a pérdida no cubierta' },
+      { value: 2, label: 'Tenemos seguro pero no sabemos si está a valor de reposición', sub: 'Revisión urgente recomendada' },
+    ]
+  },
+  {
+    id: 'q3',
+    pilar: 'Activos Físicos',
+    pilarColor: '#2563eb',
+    pilarKey: 'activos',
+    text: '¿Está asegurada tu flotilla vehicular (si aplica) con cobertura amplia?',
+    options: [
+      { value: 3, label: 'Sí, flotilla asegurada con cobertura amplia', sub: '' },
+      { value: 1, label: 'Solo cobertura básica / responsabilidad civil', sub: 'Riesgo ante robo o daño mayor' },
+      { value: 0, label: 'La flotilla no tiene seguro vigente', sub: 'Exposición total' },
+      { value: 2, label: 'No tenemos flotilla', sub: '' },
+    ]
+  },
+  {
+    id: 'q4',
+    pilar: 'Capital Humano',
+    pilarColor: '#0d9488',
+    pilarKey: 'capitalHumano',
+    text: '¿Tu empresa ofrece Gastos Médicos Mayores (GMM) colectivo a sus empleados?',
+    options: [
+      { value: 3, label: 'Sí, a todos los niveles de la organización', sub: 'Beneficio completo' },
+      { value: 1, label: 'Solo a mandos medios y directivos', sub: 'Brecha en retención de operadores' },
+      { value: 0, label: 'No tenemos GMM colectivo', sub: 'Riesgo de rotación y demandas laborales' },
+      { value: 2, label: 'Estamos evaluando contratarlo', sub: '' },
+    ]
+  },
+  {
+    id: 'q5',
+    pilar: 'Capital Humano',
+    pilarColor: '#0d9488',
+    pilarKey: 'capitalHumano',
+    text: '¿Los socios o directivos clave de tu empresa tienen seguro de vida empresarial?',
+    options: [
+      { value: 3, label: 'Sí, con suma asegurada suficiente para proteger la empresa', sub: '' },
+      { value: 1, label: 'Tienen seguro personal pero no empresarial', sub: 'La empresa queda expuesta' },
+      { value: 0, label: 'No tienen ningún seguro de vida', sub: 'Crisis de liderazgo sin respaldo' },
+      { value: 2, label: 'Somos un solo directivo, no lo hemos considerado', sub: '' },
+    ]
+  },
+  {
+    id: 'q6',
+    pilar: 'Responsabilidad Civil',
+    pilarColor: '#f59e0b',
+    pilarKey: 'respCivil',
+    text: '¿Tu empresa cuenta con seguro de Responsabilidad Civil (RC General y RC por Productos)?',
+    options: [
+      { value: 3, label: 'Sí, ambas coberturas con los límites que exigen nuestros clientes', sub: 'Protección completa' },
+      { value: 1, label: 'Tenemos RC General pero no RC por Productos', sub: 'Exposición en lo que fabricamos/entregamos' },
+      { value: 0, label: 'No tenemos ninguna cobertura de RC', sub: 'Riesgo crítico' },
+      { value: 2, label: 'No estamos seguros de qué coberturas tenemos', sub: 'Revisión urgente recomendada' },
+    ]
+  },
+  {
+    id: 'q7',
+    pilar: 'Responsabilidad Civil',
+    pilarColor: '#f59e0b',
+    pilarKey: 'respCivil',
+    text: '¿Conoces los límites mínimos de RC que te exigen tus clientes o contratos actuales?',
+    options: [
+      { value: 3, label: 'Sí, y nuestra cobertura cumple o supera esos límites', sub: '' },
+      { value: 1, label: 'Los clientes nos los piden pero no siempre los cumplimos', sub: 'Riesgo de incumplimiento contractual' },
+      { value: 0, label: 'No sabemos cuánto nos exigen o no los hemos revisado', sub: '' },
+      { value: 2, label: 'Nuestros clientes no exigen RC mínima', sub: '' },
+    ]
+  },
+  {
+    id: 'q8',
+    pilar: 'Continuidad del Negocio',
+    pilarColor: '#10b981',
+    pilarKey: 'continuidad',
+    text: '¿Tu empresa tiene un plan ante la pérdida temporal de activos clave (incendio, inundación, robo mayor)?',
+    options: [
+      { value: 3, label: 'Sí, con seguro de interrupción de negocio y plan documentado', sub: 'Máxima resiliencia' },
+      { value: 1, label: 'Tenemos seguro de activos pero no de interrupción de negocio', sub: 'Solo cubrimos el daño, no el tiempo parado' },
+      { value: 0, label: 'No tenemos plan ni cobertura de interrupción', sub: 'Exposición total ante un siniestro mayor' },
+      { value: 2, label: 'Nunca lo hemos analizado formalmente', sub: '' },
+    ]
+  }
+];
+
+// ──────────────────────────────────────
+// STATE
+// ──────────────────────────────────────
+let state = {
+  currentQ: 0,
+  answers: {},
+  scores: { fianzas: 0, activos: 0, capitalHumano: 0, respCivil: 0, continuidad: 0 },
+  counts: { fianzas: 0, activos: 0, capitalHumano: 0, respCivil: 0, continuidad: 0 },
+};
+
+// ──────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────
+function updateProgress() {
+  const pct = (state.currentQ / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('q-current').textContent = state.currentQ;
+}
+
+function renderQuestion() {
+  const q = questions[state.currentQ];
+  const container = document.getElementById('quiz-container');
+  const selected = state.answers[q.id];
+
+  const optionsHtml = q.options.map((opt, i) => `
+    <button class="option-btn ${selected === i ? 'selected' : ''}" onclick="selectOption(${i}, ${opt.value}, '${q.pilarKey}', '${q.id}')">
+      <div class="opt-circle"></div>
+      <div>
+        <div class="opt-text">${opt.label}</div>
+        ${opt.sub ? `<div class="opt-sub">${opt.sub}</div>` : ''}
+      </div>
+    </button>
+  `).join('');
+
+  // Step dots
+  let dotsHtml = '';
+  for (let i = 0; i < questions.length; i++) {
+    const cls = i < state.currentQ ? 'done' : i === state.currentQ ? 'active' : 'pending';
+    dotsHtml += `<div class="step-dot ${cls}">${i < state.currentQ ? '✓' : i + 1}</div>`;
+    if (i < questions.length - 1) {
+      dotsHtml += `<div class="step-line ${i < state.currentQ ? 'done' : ''}"></div>`;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="step-indicator">${dotsHtml}</div>
+      <p class="question-pilar" style="color:${q.pilarColor}">📋 ${q.pilar}</p>
+      <h2 class="question-text">${q.text}</h2>
+      <div class="options">${optionsHtml}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px;">
+        ${state.currentQ > 0 ? `<button class="btn-secondary" onclick="prevQuestion()">← Anterior</button>` : '<div></div>'}
+        <button class="btn-primary" id="next-btn" style="width:auto;flex:1;max-width:220px;"
+          onclick="nextQuestion()" ${selected === undefined ? 'disabled' : ''}>
+          ${state.currentQ === questions.length - 1 ? 'Ver mis resultados →' : 'Siguiente →'}
+        </button>
+      </div>
+    </div>
+  `;
+  updateProgress();
+}
+
+function selectOption(optIdx, value, pilarKey, qId) {
+  const prev = state.answers[qId];
+  const q = questions[state.currentQ];
+
+  // Remove previous score if exists
+  if (prev !== undefined) {
+    state.scores[pilarKey] -= q.options[prev].value;
+    state.counts[pilarKey]--;
+  }
+
+  state.answers[qId] = optIdx;
+  state.scores[pilarKey] += value;
+  state.counts[pilarKey]++;
+
+  // Enable next button
+  document.getElementById('next-btn').disabled = false;
+
+  // Re-render options
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === optIdx);
+    btn.querySelector('.opt-circle').style.background = i === optIdx ? '#2563eb' : '';
+    btn.querySelector('.opt-circle').style.borderColor = i === optIdx ? '#2563eb' : '';
+  });
+}
+
+function nextQuestion() {
+  if (state.answers[questions[state.currentQ].id] === undefined) return;
+  if (state.currentQ < questions.length - 1) {
+    state.currentQ++;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showForm();
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQ > 0) {
+    // Undo score for current question
+    const q = questions[state.currentQ];
+    const prev = state.answers[q.id];
+    if (prev !== undefined) {
+      state.scores[q.pilarKey] -= q.options[prev].value;
+      state.counts[q.pilarKey]--;
+      delete state.answers[q.id];
+    }
+    state.currentQ--;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ──────────────────────────────────────
+// FORM
+// ──────────────────────────────────────
+function showForm() {
+  document.getElementById('quiz-container').style.display = 'none';
+  document.getElementById('hero-section').querySelector('p').textContent =
+    'Ya casi terminas. Deja tus datos para recibir tu diagnóstico y la guía descargable.';
+
+  const progressBar = document.getElementById('progress-bar');
+  progressBar.style.width = '100%';
+  document.getElementById('q-current').textContent = '8';
+
+  const formContainer = document.getElementById('form-container');
+  formContainer.style.display = 'block';
+  formContainer.innerHTML = `
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#2563eb;font-family:'Montserrat',sans-serif;margin-bottom:6px;">PASO FINAL</p>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:#1e293b;margin-bottom:4px;">Completa tu perfil</h2>
+      <p style="color:#64748b;font-size:13px;margin-bottom:20px;">Tus datos son confidenciales y solo se usan para enviarte tu diagnóstico personalizado.</p>
+
+      <div class="form-group">
+        <label class="form-label">Nombre completo <span>*</span></label>
+        <input class="form-input" id="f-nombre" type="text" placeholder="Tu nombre y apellido" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Empresa <span>*</span></label>
+        <input class="form-input" id="f-empresa" type="text" placeholder="Nombre de tu empresa" autocomplete="organization">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Puesto / Cargo <span>*</span></label>
+        <select class="form-select" id="f-puesto">
+          <option value="">Selecciona tu rol</option>
+          <option>Director General / CEO</option>
+          <option>Director de Operaciones</option>
+          <option>Director Administrativo / CFO</option>
+          <option>Gerente de Planta</option>
+          <option>Gerente de Compras / Procurement</option>
+          <option>Responsable de RRHH</option>
+          <option>Dueño / Socio</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono / WhatsApp <span>*</span></label>
+        <input class="form-input" id="f-telefono" type="tel" placeholder="(442) 123-4567" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo electrónico <span>*</span></label>
+        <input class="form-input" id="f-email" type="email" placeholder="correo@empresa.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sector de tu empresa</label>
+        <select class="form-select" id="f-sector">
+          <option value="">Selecciona</option>
+          <option>Manufactura automotriz / Autopartes</option>
+          <option>Manufactura general</option>
+          <option>Construcción / Contratista</option>
+          <option>Logística / Transporte</option>
+          <option>Servicios industriales</option>
+          <option>Comercio / Distribución</option>
+          <option>Tecnología</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Número de empleados</label>
+        <select class="form-select" id="f-empleados">
+          <option value="">Selecciona</option>
+          <option>1–10</option>
+          <option>11–50</option>
+          <option>51–200</option>
+          <option>201–500</option>
+          <option>500+</option>
+        </select>
+      </div>
+
+      <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#1e40af;line-height:1.5;">
+        🔒 <strong>Privacidad:</strong> Tus datos son confidenciales. Solo se usarán para enviarte tu diagnóstico y que un especialista MVI pueda contactarte.
+      </div>
+
+      <button class="btn-primary" onclick="submitForm()">Ver mi diagnóstico y descargar guía →</button>
+      <button class="btn-secondary" style="width:100%;margin-top:10px;text-align:center;" onclick="showQuizFromForm()">← Revisar mis respuestas</button>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showQuizFromForm() {
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  document.getElementById('hero-section').querySelector('p').textContent =
+    'Responde 8 preguntas rápidas y recibe tu análisis de riesgos personalizado + la guía completa de MVI.';
+  renderQuestion();
+}
+
+function validateForm() {
+  const fields = ['f-nombre','f-empresa','f-puesto','f-telefono','f-email'];
+  let valid = true;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) {
+      el.classList.add('error');
+      valid = false;
+    } else {
+      el.classList.remove('error');
+    }
+  });
+  const email = document.getElementById('f-email').value;
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('f-email').classList.add('error');
+    valid = false;
+  }
+  return valid;
+}
+
+async function submitForm() {
+  if (!validateForm()) {
+    showToast('Por favor completa los campos obligatorios ✱');
+    return;
+  }
+
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const empresa = document.getElementById('f-empresa').value.trim();
+  const puesto = document.getElementById('f-puesto').value;
+  const telefono = document.getElementById('f-telefono').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const sector = document.getElementById('f-sector').value;
+  const empleados = document.getElementById('f-empleados').value;
+
+  // Calculate scores per pilar
+  const pilarMax = { fianzas: 3, activos: 6, capitalHumano: 6, respCivil: 6, continuidad: 3 };
+  const pilarPcts = {};
+  Object.keys(state.scores).forEach(k => {
+    pilarPcts[k] = Math.round((state.scores[k] / pilarMax[k]) * 100);
+  });
+  const totalScore = Math.round(Object.values(pilarPcts).reduce((a,b) => a+b, 0) / 5);
+
+  // Build answers string
+  const answersStr = questions.map(q => {
+    const ans = state.answers[q.id];
+    return `${q.pilar}: ${ans !== undefined ? q.options[ans].label : 'Sin respuesta'}`;
+  }).join(' | ');
+
+  const payload = {
+    timestamp: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+    nombre, empresa, puesto, telefono, email, sector, empleados,
+    score_total: totalScore + '%',
+    score_fianzas: pilarPcts.fianzas + '%',
+    score_activos: pilarPcts.activos + '%',
+    score_capital: pilarPcts.capitalHumano + '%',
+    score_rc: pilarPcts.respCivil + '%',
+    score_continuidad: pilarPcts.continuidad + '%',
+    respuestas: answersStr,
+    fuente: 'QR EXPO CAPIM 2026'
+  };
+
+  // Show loading
+  document.getElementById('loading-overlay').classList.add('show');
+
+  // Envío confiable via GET params + beacon fallback
+  function sendToSheet(data) {
+    return new Promise((resolve) => {
+      try {
+        const params = new URLSearchParams();
+        Object.keys(data).forEach(k => params.append(k, data[k]));
+        const url = APPS_SCRIPT_URL + '?' + params.toString();
+        fetch(url, { method: 'GET', mode: 'no-cors' })
+          .then(() => resolve(true))
+          .catch(() => {
+            const img = new Image();
+            img.onload = img.onerror = () => resolve(true);
+            img.src = url;
+          });
+        setTimeout(() => resolve(true), 4000);
+      } catch(e) { resolve(false); }
+    });
+  }
+
+  await sendToSheet(payload);
+
+  document.getElementById('loading-overlay').classList.remove('show');
+  showResults(nombre, empresa, totalScore, pilarPcts);
+}
+
+// ──────────────────────────────────────
+// RESULTS
+// ──────────────────────────────────────
+function getStatus(pct) {
+  if (pct >= 70) return { label: 'Protegido', cls: 'status-ok' };
+  if (pct >= 35) return { label: 'En riesgo', cls: 'status-warning' };
+  return { label: 'Brecha crítica', cls: 'status-danger' };
+}
+
+function showResults(nombre, empresa, totalScore, pilarPcts) {
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('hero-section').style.display = 'none';
+
+  const pilarsDisplay = [
+    { key: 'fianzas',      name: 'Fianzas y Contratos',      color: '#f97316' },
+    { key: 'activos',      name: 'Activos Físicos',           color: '#2563eb' },
+    { key: 'capitalHumano',name: 'Capital Humano',            color: '#0d9488' },
+    { key: 'respCivil',    name: 'Responsabilidad Civil',     color: '#f59e0b' },
+    { key: 'continuidad',  name: 'Continuidad del Negocio',   color: '#10b981' },
+  ];
+
+  const pilarRowsHtml = pilarsDisplay.map(p => {
+    const pct = pilarPcts[p.key];
+    const st = getStatus(pct);
+    return `
+      <div class="pilar-row">
+        <div class="pilar-dot" style="background:${p.color}"></div>
+        <div class="pilar-name">${p.name}</div>
+        <div class="pilar-bar-wrap">
+          <div class="pilar-bar" data-pct="${pct}" style="background:${p.color}"></div>
+        </div>
+        <span class="pilar-status ${st.cls}">${st.label}</span>
+      </div>
+    `;
+  }).join('');
+
+  const scoreColor = totalScore >= 70 ? '#10b981' : totalScore >= 35 ? '#f59e0b' : '#ef4444';
+  const circumference = 251;
+  const dashOffset = circumference - (totalScore / 100) * circumference;
+
+  const resultsContainer = document.getElementById('results-container');
+  resultsContainer.style.display = 'block';
+  resultsContainer.innerHTML = `
+    <div class="card">
+      <div class="result-header">
+        <div class="score-ring">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="bg" cx="50" cy="50" r="40"/>
+            <circle class="fg" id="score-arc" cx="50" cy="50" r="40"
+              style="stroke:${scoreColor};stroke-dashoffset:${dashOffset}"/>
+          </svg>
+          <div class="score-num">${totalScore}%</div>
+        </div>
+        <h2 class="result-title">Tu diagnóstico, ${nombre.split(' ')[0]}</h2>
+        <p class="result-subtitle">
+          ${totalScore >= 70
+            ? '✅ Tu empresa tiene una base sólida de protección. Hay oportunidades de optimización.'
+            : totalScore >= 35
+            ? '⚠️ Se detectaron brechas importantes. Te recomendamos una revisión con un especialista.'
+            : '🚨 Tu empresa tiene exposición significativa en varias áreas. Atención prioritaria recomendada.'}
+        </p>
+      </div>
+
+      <h3 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#1e293b;margin-bottom:12px;">Resultado por pilar:</h3>
+      <div class="pilar-results">${pilarRowsHtml}</div>
+
+      <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:14px 16px;font-size:13px;color:#78350f;line-height:1.6;margin-bottom:4px;">
+        💡 <strong>Próximo paso recomendado:</strong> Un especialista MVI puede revisar tus pólizas actuales, identificar brechas específicas y proponerte mejoras sin costo ni compromiso.
+      </div>
+    </div>
+
+    <div class="download-box">
+      <div class="download-icon">📘</div>
+      <h3>Tu Guía de Administración de Riesgos</h3>
+      <p>Los 5 pilares que toda empresa industrial debe cubrir. Descarga gratuita por completar tu diagnóstico.</p>
+      <button class="btn-download" onclick="downloadPDF()">
+        ⬇ Descargar Guía PDF
+      </button>
+    </div>
+
+    <a href="https://wa.me/5214421348148?text=Hola%2C%20acabo%20de%20hacer%20el%20diagn%C3%B3stico%20de%20riesgos%20en%20EXPO%20CAPIM%202026.%20Quisiera%20hablar%20con%20un%20especialista%20de%20MVI." 
+       class="wa-box" target="_blank">
+      <div class="wa-icon">💬</div>
+      <div class="wa-text">
+        <h4>Hablar con un especialista MVI</h4>
+        <p>Agenda 30 min gratis · Sin costo · Sin compromiso</p>
+      </div>
+    </a>
+
+    <div style="text-align:center;margin-top:24px;">
+      <p style="color:#94a3b8;font-size:11px;line-height:1.5;">
+        MVI Seguros · Fianzas · Querétaro, México<br>
+        informes@mvi.mx · www.mvi.mx · Tel. 442 134 8148
+      </p>
+    </div>
+  `;
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.pilar-bar').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 200);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ──────────────────────────────────────
+// PDF DOWNLOAD
+// ──────────────────────────────────────
+function downloadPDF() {
+  try {
+    // Method 1: Blob download (best for modern browsers)
+    const byteChars = atob(PDF_B64);
+    const bytes = new Uint8Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) bytes[i] = byteChars.charCodeAt(i);
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Guia-Administracion-Riesgos-MVI.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToast('✅ Guía descargada con éxito');
+  } catch(e) {
+    // Method 2: Open PDF in new tab via data URI (Safari / iOS fallback)
+    try {
+      const dataUri = 'data:application/pdf;base64,' + PDF_B64;
+      const win = window.open('', '_blank');
+      if (win) {
+        win.document.write(
+          '<!DOCTYPE html><html><head><title>Guía MVI</title>' +
+          '<style>body,html{margin:0;padding:0;height:100%;background:#1a2c5b;}' +
+          'iframe{width:100%;height:100%;border:none;}</style></head>' +
+          '<body><iframe src="' + dataUri + '"></iframe></body></html>'
+        );
+        showToast('📄 Guía abierta en nueva pestaña');
+      } else {
+        // Method 3: Navigate current tab (last resort)
+        document.location.href = dataUri;
+      }
+    } catch(e2) {
+      showToast('⚠️ Usa Chrome o Safari para descargar el PDF');
+    }
+  }
+}
+
+// ──────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ──────────────────────────────────────
+// INIT
+// ──────────────────────────────────────
+renderQuestion();
+</script>
+</body>
+</html>
